@@ -13,8 +13,8 @@
   <header>
     <section class="main-title">OVERLOOK HOTEL</section>
     <nav class="nav hidden">
-      <a href="#">Customer Dashboard</a>
-      <a href="#">Booking</a>
+      <a href="#" class="dashboard-button">Customer Dashboard</a>
+      <a href="#" class="booking-button">Booking</a>
     </nav>
   </header>
   <div class="login-container">
@@ -44,11 +44,13 @@
       <option value="double">Double</option>
       <option value="suite">Suite</option>
     </select>
-
     <button class="search-button">Search</button>
-
     <div id="roomList"></div>
   </section>
+  <div class="dashboard hidden">
+    <section class="customer-bookings">Your Bookings</section>
+    <section class="total-spent">You've Spent $1000</section>
+  </div>
   <!-- Do not include the scripts.js or class files here - it is done by the webpack server -->
   <script src="bundle.js"></script>
 

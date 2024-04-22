@@ -3,6 +3,8 @@ export function getCustomerBookings(customerId, bookings){
     const customerRooms = bookings.filter(booking => {
         return booking.userID === customerId
     })
+    console.log(customerId)
+    console.log(customerRooms)
     return customerRooms
 }
 
