@@ -16,6 +16,10 @@ const dashboardButton = document.querySelector('.dashboard-button')
 const dashboard = document.querySelector('.dashboard')
 const customerBookingElement = document.querySelector('.customer-bookings')
 const bookingTotal = document.querySelector('.total-spent')
+const dateInput = document.querySelector('.date-input')
+const roomType = document.querySelector('.room-type')
+
+var roomsToDisplay = []
 
 
 global.addEventListener('load', function(){
@@ -33,8 +37,7 @@ bookingButton.addEventListener('click', function(){
 })
 
 searchButton.addEventListener('click', function(){
-    searchForRooms()
-})
+    searchForRooms(roomAPI, bookingsAPI)})
 
 //LOGIN FUNCTIONS
 
@@ -77,7 +80,7 @@ function setDashboardView(){
 
 function displayBookings(customerId, bookingsAPI, roomAPI) {
     customerId = customerAPI.id
-    const roomsToDisplay = getCustomerBookings(customerId, bookingsAPI);
+    roomsToDisplay = getCustomerBookings(customerId, bookingsAPI);
     roomsToDisplay.forEach(booking => {
         const room = roomAPI.find(room => room.number === booking.roomNumber);
         
@@ -109,3 +112,63 @@ function setBookingView(){
     dashboard.classList.add('hidden')
     bookingPage.classList.remove('hidden')
 }
+
+function searchForRooms(roomAPI, bookingsAPI){
+    const date = dateInput.value;
+    const type = roomType.value
+    const allAvailableRooms = getAvailableRooms(date, roomAPI, bookingsAPI);
+    const correctAvailableRooms = filterRoomsByType(allAvailableRooms, type)
+    const roomListElement = document.getElementById('roomList');
+    roomListElement.innerHTML = '';
+    correctAvailableRooms.forEach(room => {
+        const roomElement = document.createElement('div');
+        roomElement.classList.add('room');
+        const roomInfo = `
+            <p>Room Number: ${room.number}</p>
+            <p>Room Type: ${room.roomType}</p>
+            <p>Bed Size: ${room.bedSize}</p>
+            <p>Number of Beds: ${room.numBeds}</p>
+            <p>Bidet: ${room.bidet ? 'Yes' : 'No'}</p>
+            <p>Cost Per Night: $${room.costPerNight}</p>
+        `;
+        const bookButton = document.createElement('button');
+        bookButton.textContent = 'Book Room';
+        bookButton.addEventListener('click', () => {
+            bookRoom(room.number, date);
+        });
+        roomElement.innerHTML = roomInfo;
+        roomElement.appendChild(bookButton);
+        roomListElement.appendChild(roomElement);
+    });
+}
+
+function bookRoom(roomNumber, date, customerId) {
+    const bookingData = {
+        id: parseInt(Date.now()),
+        userId: parseInt(customerId),
+        date: date,
+        roomNumber: parseInt(roomNumber)
+    }
+    return bookingData
+}
+
+// ERROR WARNING
+
+export function displayWarning(message){
+    const warningMessageContainer = document.querySelector(".warning-container");
+    if (!warningMessageContainer) return;
+    const warning = document.createElement("div");
+    warning.classList.add("warning");
+    warning.innerHTML = `
+        <p>${message}</p>
+        <button class="close-btn">Close</button>
+    `;
+    warningMessageContainer.appendChild(warning);
+    const closeButton = warning.querySelector(".close-btn");
+    closeButton.addEventListener("click", () => {
+        warning.remove();
+    });
+    setTimeout(() => {
+      warning.remove();
+    }, 3000);
+};
