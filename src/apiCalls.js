@@ -2,8 +2,8 @@ import  "./scripts.js"
 import { customerId } from "./scripts.js"
 
 
-export let customerAPI
-export let roomAPI
+export let customerAPI = [] 
+export let roomAPI 
 export let bookingsAPI
 
 
@@ -13,7 +13,7 @@ export function fetchCustomerData(customerId){
     .then((response) => response.json())
     .then((data) => {
       customerAPI = data
-      console.log(customerAPI)
+      console.log(customerAPI.id)
     })
     .catch((error) => console.error(error));
 }
@@ -22,7 +22,7 @@ export function fetchAllRooms(){
   fetch("http://localhost:3001/api/v1/rooms")
   .then((response) => response.json())
   .then((data) => {
-    roomAPI = data
+    roomAPI = data.rooms
     console.log(roomAPI)
   })
   .catch((error) => console.error(error))
@@ -32,8 +32,16 @@ export function fetchBookings(){
   fetch('http://localhost:3001/api/v1/bookings')
   .then((response) => response.json())
   .then((data) => {
-    bookingsAPI = data
+    bookingsAPI = data.bookings
     console.log(bookingsAPI)
+    
   })
   .catch((error) => console.error(error))
 }
+
+
+
+
+
+
+
