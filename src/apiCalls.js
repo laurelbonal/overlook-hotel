@@ -1,5 +1,5 @@
 import  "./scripts.js"
-import { customerId } from "./scripts.js"
+import { customerId, displayWarning } from "./scripts.js"
 
 
 export let customerAPI = [] 
@@ -15,7 +15,7 @@ export function fetchCustomerData(customerId){
       customerAPI = data
       console.log(customerAPI.id)
     })
-    .catch((error) => console.error(error));
+    .catch((error) => displayWarning(`sorry! ${error}`));
 }
 
 export function fetchAllRooms(){
@@ -25,7 +25,7 @@ export function fetchAllRooms(){
     roomAPI = data.rooms
     console.log(roomAPI)
   })
-  .catch((error) => console.error(error))
+  .catch((error) => displayWarning(`sorry! ${error}`))
 }
 
 export function fetchBookings(){
@@ -36,8 +36,9 @@ export function fetchBookings(){
     console.log(bookingsAPI)
     
   })
-  .catch((error) => console.error(error))
+  .catch((error) => displayWarning(`sorry! ${error}`))
 }
+
 
 
 

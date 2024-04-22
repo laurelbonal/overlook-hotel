@@ -8,7 +8,8 @@ import {
     getCustomerBookings,
     getTotalBookingPrice,
     getAvailableRooms, 
-    filterRoomsByType
+    filterRoomsByType,
+    bookRoom
 } from "../src/booking"
 
 describe('customer dashboard', function(){
@@ -149,5 +150,8 @@ describe('Searching rooms', function(){
             const filteredRooms = filterRoomsByType(roomData);
             expect(filteredRooms).to.deep.equal(roomData);
         });
+    })
+    describe('book Room', function(){
+        
     })
 })
