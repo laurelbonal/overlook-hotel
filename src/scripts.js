@@ -3,9 +3,9 @@
 
 // An example of how you tell webpack to use a CSS (SCSS) file
 import './css/styles.scss';
-import {fetchCustomerData, fetchAllRooms, fetchBookings, roomAPI, bookingsAPI, customerAPI} from './apiCalls'
+import {fetchCustomerData, fetchAllRooms, fetchBookings, roomAPI, bookingsAPI, customerAPI, postBooking} from './apiCalls'
 import { getCustomerBookings, getTotalBookingPrice, getAvailableRooms, filterRoomsByType} from './booking';
-export let customerId
+
 
 const loginPage = document.querySelector('.login-container')
 const bookingPage = document.querySelector('.booking')
@@ -20,6 +20,7 @@ const dateInput = document.querySelector('.date-input')
 const roomType = document.querySelector('.room-type')
 
 var roomsToDisplay = []
+let customerId
 
 
 global.addEventListener('load', function(){
@@ -37,7 +38,7 @@ bookingButton.addEventListener('click', function(){
 })
 
 searchButton.addEventListener('click', function(){
-    searchForRooms(roomAPI, bookingsAPI)})
+    searchForRooms(roomAPI, bookingsAPI, customerId)})
 
 //LOGIN FUNCTIONS
 
@@ -47,7 +48,7 @@ document.getElementById("login-form").addEventListener("submit", function(event)
     var password = document.getElementById("password").value;
     var matches = usernameInput.match(/\d+/); 
     if (matches) {
-        var customerId = matches[0]; 
+        customerId = matches[0]; 
         var customerPrefix = usernameInput.replace(customerId, ""); 
         var username = customerPrefix + customerId;
 
@@ -83,7 +84,6 @@ function displayBookings(customerId, bookingsAPI, roomAPI) {
     roomsToDisplay = getCustomerBookings(customerId, bookingsAPI);
     roomsToDisplay.forEach(booking => {
         const room = roomAPI.find(room => room.number === booking.roomNumber);
-        
         if (room) {
             const paragraph = document.createElement('p');
             const roomText = `Room: ${room.number}, 
@@ -113,7 +113,7 @@ function setBookingView(){
     bookingPage.classList.remove('hidden')
 }
 
-function searchForRooms(roomAPI, bookingsAPI){
+function searchForRooms(roomAPI, bookingsAPI, customerId){
     const date = dateInput.value;
     const type = roomType.value
     const allAvailableRooms = getAvailableRooms(date, roomAPI, bookingsAPI);
@@ -134,7 +134,7 @@ function searchForRooms(roomAPI, bookingsAPI){
         const bookButton = document.createElement('button');
         bookButton.textContent = 'Book Room';
         bookButton.addEventListener('click', () => {
-            bookRoom(room.number, date);
+            roomToBook(room.number, date, customerId);
         });
         roomElement.innerHTML = roomInfo;
         roomElement.appendChild(bookButton);
@@ -142,14 +142,19 @@ function searchForRooms(roomAPI, bookingsAPI){
     });
 }
 
-function bookRoom(roomNumber, date, customerId) {
+export function roomToBook(roomNumber, date, customerId) {
     const bookingData = {
-        id: parseInt(Date.now()),
-        userId: parseInt(customerId),
+        userID: parseInt(customerId),
         date: date,
         roomNumber: parseInt(roomNumber)
     }
+    addBooking(bookingData)
     return bookingData
+}
+
+export function addBooking(bookingData){
+    postBooking(bookingData)
+
 }
 
 // ERROR WARNING

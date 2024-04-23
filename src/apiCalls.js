@@ -1,5 +1,5 @@
 import  "./scripts.js"
-import { customerId, displayWarning } from "./scripts.js"
+import { customerId, displayWarning, roomToBook } from "./scripts.js"
 
 
 export let customerAPI = [] 
@@ -39,7 +39,27 @@ export function fetchBookings(){
   .catch((error) => displayWarning(`sorry! ${error}`))
 }
 
-
+export function postBooking(bookingData){
+  fetch('http://localhost:3001/api/v1/bookings', {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(bookingData)
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw Error('Sorry, booking failed. Please try again later.');
+    }
+    return response.json();
+  })
+  .then(data => {
+    console.log('Booking successful!'); 
+    displayWarning('Room Booked! Thank you!'); 
+  })
+  .catch(error => {
+    console.error(error); 
+    displayWarning(error.message); 
+  });
+}
 
 
 
