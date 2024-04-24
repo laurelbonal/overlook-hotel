@@ -41,7 +41,7 @@ export function fetchBookings(){
 }
 
 export function postBooking(bookingData){
-  fetch('http://localhost:3001/api/v1/bookings', {
+  return fetch('http://localhost:3001/api/v1/bookings', {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(bookingData)
