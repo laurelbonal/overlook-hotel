@@ -160,7 +160,12 @@ export function roomToBook(roomNumber, date, customerId) {
 
 export function addBooking(bookingData){
     postBooking(bookingData)
-
+    .then(() => {
+        fetchBookings(); 
+    })
+    .catch(error => {
+        alert('Error posting booking:', error);
+    });
 }
 
 
