@@ -1,10 +1,11 @@
 import  "./scripts.js"
-import { customerId, displayWarning, roomToBook } from "./scripts.js"
+import { customerId, roomToBook } from "./scripts.js"
 
 
 export let customerAPI = [] 
 export let roomAPI 
 export let bookingsAPI
+export let newBooking
 
 
 
@@ -15,7 +16,7 @@ export function fetchCustomerData(customerId){
       customerAPI = data
       console.log(customerAPI.id)
     })
-    .catch((error) => displayWarning(`sorry! ${error}`));
+    .catch((error) => alert(`sorry! ${error}`));
 }
 
 export function fetchAllRooms(){
@@ -25,7 +26,7 @@ export function fetchAllRooms(){
     roomAPI = data.rooms
     console.log(roomAPI)
   })
-  .catch((error) => displayWarning(`sorry! ${error}`))
+  .catch((error) => alert(`sorry! ${error}`))
 }
 
 export function fetchBookings(){
@@ -36,7 +37,7 @@ export function fetchBookings(){
     console.log(bookingsAPI)
     
   })
-  .catch((error) => displayWarning(`sorry! ${error}`))
+  .catch((error) => alert(`sorry! ${error}`))
 }
 
 export function postBooking(bookingData){
@@ -52,12 +53,11 @@ export function postBooking(bookingData){
     return response.json();
   })
   .then(data => {
-    console.log('Booking successful!'); 
-    displayWarning('Room Booked! Thank you!'); 
+    newBooking = data.newbooking
+    alert('Room Booked! Thank you!'); 
   })
-  .catch(error => {
-    console.error(error); 
-    displayWarning(error.message); 
+  .catch(error => { 
+    alert(error.message); 
   });
 }
 

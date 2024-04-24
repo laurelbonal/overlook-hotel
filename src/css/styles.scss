@@ -17,7 +17,7 @@ header {
   justify-content: space-between;
   height: 100px;
   width: 100%;
-  font-size: xx-large;
+  font-size: x-large;
 }
 
 
@@ -44,4 +44,18 @@ button {
   border-radius: 5px;
   width: 100%;
   cursor: pointer;
+}
+
+.dashboard-button, 
+.booking-button {
+  color: black;
+}
+
+.customer-bookings {
+  background-color: #CE7685;
+  width: 600px;
+  text-align: center;
+  font-size: medium;
+  border: 2px solid black;
+  margin-top: 10px;
 }
